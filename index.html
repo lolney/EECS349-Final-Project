@@ -1,79 +1,168 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Eecs349-final-project : ">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Eecs349-final-project</title>
+    <meta charset="UTF-8">
+    <title>Eecs349-final-project by lolney</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Eecs349-final-project</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/lolney/EECS349-Final-Project" class="btn">View on GitHub</a>
+      <a href="https://github.com/lolney/EECS349-Final-Project/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/lolney/EECS349-Final-Project/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/lolney/EECS349-Final-Project">View on GitHub</a>
+    <section class="main-content">
+      <h1>
+<a id="predicting-college-choice-based-on-academic-and-extracurricular-interests" class="anchor" href="#predicting-college-choice-based-on-academic-and-extracurricular-interests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Predicting college choice based on academic and extracurricular interests</h1>
 
-          <h1 id="project_title">Eecs349-final-project</h1>
-          <h2 id="project_tagline"></h2>
+<p>Luke Olney
+/
+<a href="mailto:LukeOlney2016@u.northwestern.edu">LukeOlney2016@u.northwestern.edu</a>
+/
+Professor Douglas Downey's EECS 349 (Machine Learning) class at Northwestern University</p>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/lolney/EECS349-Final-Project/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/lolney/EECS349-Final-Project/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+<h2>
+<a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<p>This project is devoted to the following question: how do students' interests affect how they apply to, and where they get into, different colleges and universities? This is a variant on a familiar topic to those applying to college - a number of online tools are available for predicting undergraduate college admissions success. The high availability of data, as high dependence of admissions decisions on certain numerical quantities (SAT score, GPA, class rank, etc.), make this a natural translation to a machine learning task. In particular, the phenomena of ‘decision threads’ <a href="http://talk.collegeconfidential.com/northwestern-university/1308001-official-northwestern-rd-2016-results-thread.html">^3</a> on the CollegeConfidential.com message boards provide large quantities of semi-structured data for the factors that go into college admission, quantitative and qualitative. As near mirrors of students’ college applications, however, this data provides more information than what is necessary to get admitted into a particular University. It provides a full record of personal information like extracurriculars, job experience, volunteer service, and summer activities, which tell a great deal about </p>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<p>That colleges possess certain “personalities” is a common theme in popular and social media, inspiring guides and quizzes in publications from US News <a href="http://www.usnews.com/education/best-colleges/right-school/choices/articles/2008/08/21/college-personality-quiz">^4</a> to Buzzfeed <a href="http://www.buzzfeed.com/kristinchirico/which-college-should-you-actually-go-to#.mipYpXKMj">^5</a>. Appropriately, a possible approach to this task is to retrieve data from publicly-shared information on social networks like Facebook. Existing personality research has commonly taken that approach <a href="http://hcil2.cs.umd.edu/trs/2010-30/2010-30.pdf">^2</a>. The advantage of the CollegeConfidential data is that it clearly delineates categories that are relevant to a student’s reasons for applying to that college, which may be difficult to distinguish in the data that Facebook's grpah API applies.</p>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+<p>Though my results show that a students' academic interests can't predict with any certainty where they will apply, the most informative words nevertheless show interesting patterns. I also confirmed that it was possible to predict just from interests to predict whether a student would be admitted to a school in a particular athletic conference just from results alone. </p>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+<h2>
+<a id="methods-and-results" class="anchor" href="#methods-and-results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods and Results</h2>
 
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<p>All data was collected from so-called "results" threads on the message board of CollegeConfidential.com, where students who applied to a particular university will post whether they were accepted or rejected, along with information that typically goes on a college application. I prioritized collection from early decision or early action decision threads, since these applicants have made a greater commitment to their school and therefore provide a stronger signal for the school's personality. This makes up partially for the lack of data on which school the person chooses of the ones to which they were accepted. Data reported here is sometimes in a regular format, but there are often low levels of adherence to the posted format and the format varies between threads for different universities in different years. My scraper attempted to collect text that belonged to one of the 'interests' categories that was often defined in the suggested format, including: 'Summer Activities', 'Volunteer/Community service', 'Extracurriculars', and 'Job/Work Experience.'</p>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>Data came from schools belonging to the Big-10, NESCAC, and Ivy league athletics conferences. I collected responses from a total of 643 users over two years (2014-2015). There was also substantial cross-posting between these groups — ~21% of users whose response I collected posted to more than one group. That portion of users who didn’t cross-post is still useful to consider because their post certainly provides a signal for which college college they choose, even if it detracts from my original purpose.</p>
 
-<h3>
-<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<p>I considered both the task of predicting whether students applied to school in a particular athletic conference and also whether they were accepted, given that they applied; the latter is mainly a control to gauge the effectiveness of the first.
+I began with a straightforward bag-of-words representation using monograms, digrams, and trigrams of the input text. I triedwith and without tf-idf weighting to control for the influence of words that appear frequently in general, Trigrams proved useful in capturing the names of certain clubs or organizations, such as 'Habitat for Humanity.' I do an 80-20 split of the collected data for training and validation purposes, and train using several classifiers: Naive Bayes and logistic regression. The conditional independence assumptions of Naive Bayes are particularly apt here, since applicants usually present their activities in a laundry list format (though often with extensive explanation).</p>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>Accuracy does not vary significantly when using different classifiers, although it is much better with the 'accepted' task than with the 'applied' task. Accuracy was higher for Ivy League 'accepted' predictions, showing that a persons' activities are relatively more useful for gaining acceptance there, and lower among Big-10 schools.   </p>
 
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+<p>Although hypothesis testing shows that the predictions are better than chance, the 'accepted' prediction task is much more effective than the 'applied.' Nonetheless, the most informative features tell an interesting story, showing that in aggregate there are certain features that define the applicant pool of each group of schools. In particular, the words that most inform whether a person will apply an Ivy League school include 'founder' and 'intern,' which indicate career ambition, and also appear often in the . The words that best predict application to NESCAC schools include activities like 'debate' and 'art' Words that are highly predictive for 'accepted' don't show this kind of variety; the interests that are most useful for getting accepted seem to be so among all the schools considered.</p>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
+<h4>
+<a id="figure-1-learning-methods-and-accuracy" class="anchor" href="#figure-1-learning-methods-and-accuracy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Figure 1: Learning methods and accuracy</h4>
 
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
+<table>
+<thead>
+<tr>
+<th align="center">Method</th>
+<th align="center">Accuracy (applied)</th>
+<th align="center">Accuracy (accepted)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">B</td>
+<td align="center">.54</td>
+<td align="center">.76</td>
+</tr>
+<tr>
+<td align="center">Naive Bayes</td>
+<td align="center">.54</td>
+<td align="center">.81</td>
+</tr>
+<tr>
+<td align="center">Naive Bayes w/    tf-df weighting</td>
+<td align="center">.57</td>
+<td align="center">.85</td>
+</tr>
+<tr>
+<td align="center">Logistic Regression</td>
+<td align="center">.52</td>
+<td align="center">.79</td>
+</tr>
+</tbody>
+</table>
 
-<p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
+<h4>
+<a id="figure-2-examples-of-informative-words-for-applied" class="anchor" href="#figure-2-examples-of-informative-words-for-applied" aria-hidden="true"><span class="octicon octicon-link"></span></a>Figure 2: Examples of informative words (for applied)</h4>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Eecs349-final-project maintained by <a href="https://github.com/lolney">lolney</a></p>
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+<table>
+<thead>
+<tr>
+<th align="center">NESCAC</th>
+<th align="center">Ivy League</th>
+<th align="center">Big-10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">debate</td>
+<td align="center">founder</td>
+<td align="center">captain</td>
+</tr>
+<tr>
+<td align="center">volunteer</td>
+<td align="center">intern</td>
+<td align="center">founder</td>
+</tr>
+<tr>
+<td align="center">music</td>
+<td align="center">lab</td>
+<td align="center">club</td>
+</tr>
+</tbody>
+</table>
+
+<h4>
+<a id="figure-3-examples-of-informative-words-for-accepted" class="anchor" href="#figure-3-examples-of-informative-words-for-accepted" aria-hidden="true"><span class="octicon octicon-link"></span></a>Figure 3: Examples of informative words (for accepted)</h4>
+
+<table>
+<thead>
+<tr>
+<th align="center">NESCAC</th>
+<th align="center">Ivy League</th>
+<th align="center">Big-10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">founder</td>
+<td align="center">lab</td>
+<td align="center">state</td>
+</tr>
+<tr>
+<td align="center">lab</td>
+<td align="center">founder</td>
+<td align="center">intern</td>
+</tr>
+<tr>
+<td align="center">intern</td>
+<td align="center">intern</td>
+<td align="center">hospital</td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="future-work" class="anchor" href="#future-work" aria-hidden="true"><span class="octicon octicon-link"></span></a>Future Work</h2>
+
+<p>A similar analysis could extend to other groupings of schools - possibilities include a breakdown to individual schools, a comparison of different categories of schools (e.g., technical and liberal arts). Another sort of analysis might try to learn the semantics of different activities, grouping activities that are similar either in topic or in usefulness for gaining admission.</p>
+
+<h2>
+<a id="references" class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/lolney/EECS349-Final-Project">Eecs349-final-project</a> is maintained by <a href="https://github.com/lolney">lolney</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-    
+    </section>
 
+  
   </body>
 </html>
+
